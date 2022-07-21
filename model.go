@@ -20,13 +20,14 @@ type MessageMap struct {
 }
 
 type DogCEO interface {
-	ListBreads() (*MessageMap, error)
-	ImagesByBread(string) (*MessageArray, error)
+	ListBreeds() (*MessageMap, error)
+	ImagesByBreed(breed string) (*MessageArray, error)
 	RandomImage() (*Message, error)
-	RandomImages(string) (*MessageArray, error)
-	RandomImageByBread(string) (*Message, error)
-	RandomImagesByBread(string, string) (*MessageArray, error)
-	ListSubBreads(string) (*MessageArray, error)
-	ImagesBySubBreed(string, string) (*MessageArray, error)
-	RandomImageBySubBreed(string, string) (*Message, error)
+	RandomImages(numberOfImages string) (*MessageArray, error)
+	RandomImageByBreed(breed string) (*Message, error)
+	RandomImagesByBreed(breed, numberOfImages string) (*MessageArray, error)
+	ListSubBreeds(breed string) (*MessageArray, error)
+	ImagesBySubBreed(breed, subbreed string) (*MessageArray, error)
+	RandomImageBySubBreed(breed, subbreed string) (*Message, error)
+	RandomImagesBySubBreed(breed, subbreed, numberOfImages string) (*MessageArray, error)
 }

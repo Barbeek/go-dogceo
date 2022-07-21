@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 // HTTPClient interface
@@ -14,26 +15,28 @@ type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-type apiStatus struct {
-	Code    int    `json:"status_code"`
-	Message string `json:"status_message"`
-}
-
-var (
-	httpClient HTTPClient = &http.Client{
-		Transport: &http.Transport{},
-	}
+const (
+	baseURL               string = "https://dog.ceo/api"
+	defaultNumberOfImages string = "1"
 )
 
-func request(url, method string, body, result interface{}) error {
+var (
+	httpClient HTTPClient = &http.Client{}
+)
+
+func request(baseURL, method string, body, result interface{}) error {
 	data, err := json.Marshal(body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyReader := bytes.NewReader(data)
-	req, err := http.NewRequest(method, url, bodyReader)
+	uri, err := url.Parse(baseURL)
 	if err != nil {
-		log.Printf("error during request call of %s %s\n error : %s", method, url, err.Error())
+		return err
+	}
+	bodyReader := bytes.NewReader(data)
+	req, err := http.NewRequest(method, uri.String(), bodyReader)
+	if err != nil {
+		log.Printf("error during request call of %s %s\n error : %s", method, uri.String(), err.Error())
 		return err
 	}
 
@@ -57,12 +60,7 @@ func request(url, method string, body, result interface{}) error {
 		return nil
 	}
 
-	// Handle failure modes
-	var status apiStatus
-	if err = json.Unmarshal(resBody, &status); err != nil {
-		return err
-	}
-	return fmt.Errorf("Code (%d): %s", status.Code, status.Message)
+	return fmt.Errorf("Code (%d): %s", res.StatusCode, string(resBody))
 }
 
 func New() DogCEO {
