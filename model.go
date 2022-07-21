@@ -19,6 +19,7 @@ type MessageMap struct {
 	Status  string              `json:"status"`
 }
 
+// DogCEO contains all the methods needed to communicate with Dog CEO API
 type DogCEO interface {
 	ListBreeds() (*MessageMap, error)
 	ImagesByBreed(breed string) (*MessageArray, error)

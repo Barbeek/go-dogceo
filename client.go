@@ -63,6 +63,7 @@ func request(baseURL, method string, body, result interface{}) error {
 	return fmt.Errorf("Code (%d): %s", res.StatusCode, string(resBody))
 }
 
+// New set the api URL and returns a DogCEO interface
 func New() DogCEO {
 	client := &api{
 		baseURL: baseURL,

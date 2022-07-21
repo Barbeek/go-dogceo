@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// ListBreeds returns all dog's breeds and their subbreeds
 func (c *api) ListBreeds() (*MessageMap, error) {
 	breeds := &MessageMap{}
 	uri := fmt.Sprintf("%s/breeds/list/all", c.baseURL)
