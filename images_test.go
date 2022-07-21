@@ -30,15 +30,9 @@ func TestRandomImage(t *testing.T) {
 
 			message, err := New().RandomImage()
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
-			}
-			if !assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message) {
-				return
-			}
-			if !assert.Equal(t, test.want.Status, message.Status) {
-				return
-			}
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message)
+			assert.Equal(t, test.want.Status, message.Status, "status should be %s but got %s", test.want.Status, message.Status)
 		})
 	}
 }
@@ -86,14 +80,12 @@ func TestRandomImages(t *testing.T) {
 
 			messages, err := New().RandomImages(test.arg)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.Len(t, messages.Message, test.arrayLenght, "messages len should be %d but is %d", test.arrayLenght, len(messages.Message))
 			}
-			if messages != nil && !assert.Len(t, messages.Message, test.arrayLenght, "messages len should be %d but is %d", test.arrayLenght, len(messages.Message)) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}
@@ -128,14 +120,12 @@ func TestImagesByBreed(t *testing.T) {
 
 			messages, err := New().ImagesByBreed(test.arg)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.NotEmpty(t, messages.Message, "messages should not be empty %+v", messages.Message)
 			}
-			if messages != nil && !assert.NotEmpty(t, messages.Message, "messages should not be empty %+v", messages.Message) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}
@@ -170,14 +160,12 @@ func TestRandomImageByBreed(t *testing.T) {
 
 			messages, err := New().RandomImageByBreed(test.arg)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message)
 			}
-			if messages != nil && !assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}
@@ -239,14 +227,12 @@ func TestRandomImagesByBreed(t *testing.T) {
 
 			messages, err := New().RandomImagesByBreed(test.args.breed, test.args.numberOfImages)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.Len(t, messages.Message, test.arrayLen, "messages len should be %d but is %d", test.arrayLen, len(messages.Message))
 			}
-			if messages != nil && !assert.Len(t, messages.Message, test.arrayLen, "messages len should be %d but is %d", test.arrayLen, len(messages.Message)) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}

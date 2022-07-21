@@ -27,15 +27,9 @@ func TestListBreeds(t *testing.T) {
 
 			message, err := New().ListBreeds()
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
-			}
-			if !assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message) {
-				return
-			}
-			if !assert.Equal(t, test.want.Status, message.Status) {
-				return
-			}
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message)
+			assert.Equal(t, test.want.Status, message.Status, "status should be %s but got %s", test.want.Status, message.Status)
 		})
 	}
 }

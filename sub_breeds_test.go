@@ -31,15 +31,9 @@ func TestListSubBreeds(t *testing.T) {
 
 			message, err := New().ListSubBreeds(test.arg)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
-			}
-			if !assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message) {
-				return
-			}
-			if !assert.Equal(t, test.want.Status, message.Status) {
-				return
-			}
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			assert.NotNil(t, message.Message, "image should not be nil but got %+v", message.Message)
+			assert.Equal(t, test.want.Status, message.Status, "status should be %s but got %s", test.want.Status, message.Status)
 		})
 	}
 }
@@ -92,14 +86,12 @@ func TestImagesBySubBreed(t *testing.T) {
 
 			messages, err := New().ImagesBySubBreed(test.args.breed, test.args.subbreed)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message)
 			}
-			if messages != nil && !assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}
@@ -153,13 +145,12 @@ func TestRandomImageBySubBreed(t *testing.T) {
 
 			messages, err := New().RandomImageBySubBreed(test.args.breed, test.args.subbreed)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message)
 			}
-			if messages != nil && !assert.NotEqual(t, "", messages.Message, "messages should not be empty %+v", messages.Message) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 				return
 			}
 		})
@@ -233,14 +224,12 @@ func TestRandomImagesBySubBreed(t *testing.T) {
 
 			messages, err := New().RandomImagesBySubBreed(test.args.breed, test.args.subbreed, test.args.numberOfImages)
 
-			if !assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err) {
-				return
+			assert.Equal(t, test.err, err, "Error should be : %+v but got : %+v", test.err, err)
+			if messages != nil {
+				assert.Len(t, messages.Message, test.arrayLen, "messages len should be %d but is %d", test.arrayLen, len(messages.Message))
 			}
-			if messages != nil && !assert.Len(t, messages.Message, test.arrayLen, "messages len should be %d but is %d", test.arrayLen, len(messages.Message)) {
-				return
-			}
-			if test.want != nil && !assert.Equal(t, test.want.Status, messages.Status) {
-				return
+			if test.want != nil {
+				assert.Equal(t, test.want.Status, messages.Status, "status should be %s but got %s", test.want.Status, messages.Status)
 			}
 		})
 	}
